@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const twilioService = require('../services/twilioService');
+const callLogModel = require('../models/callLogModel'); 
 
 router.post('/trigger-call', async (req, res) => {
   try {
@@ -24,6 +25,39 @@ router.post('/trigger-call', async (req, res) => {
     console.error('Error triggering call:', error);
     return res.status(500).json({ 
       error: 'Failed to trigger call',
+      details: error.message
+    });
+  }
+});
+
+
+router.get('/call-log/:callSid', (req, res) => {
+  try {
+    const callSid = req.params.callSid;
+    const log = callLogModel.getCallLogByCallSid(callSid);
+    
+    if (!log) {
+      return res.status(404).json({ error: 'Call log not found' });
+    }
+    
+    return res.status(200).json(log);
+  } catch (error) {
+    console.error('Error retrieving call log:', error);
+    return res.status(500).json({ 
+      error: 'Failed to retrieve call log',
+      details: error.message
+    });
+  }
+});
+
+router.get('/call-logs', (req, res) => {
+  try {
+    const logs = callLogModel.getCallLogs();
+    return res.status(200).json(logs);
+  } catch (error) {
+    console.error('Error retrieving call logs:', error);
+    return res.status(500).json({ 
+      error: 'Failed to retrieve call logs',
       details: error.message
     });
   }
