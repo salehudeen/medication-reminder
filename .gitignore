@@ -1,2 +1,28 @@
+# Node modules
+node_modules/
+
+# Environment variables
 .env
-/services/.env
+services/.env
+# Logs
+*.log
+
+# Temporary files
+tmp/
+*.tmp
+
+# IDE specific files
+.idea/
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+coverage/
+
+# Build artifacts
+build/
+dist/
+out/
