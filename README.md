@@ -39,7 +39,7 @@ When a call is processed, you'll see detailed console logs that provide insights
 ```
 Call SID: CA177xyz..., Status: in-progress, Recording URL: https://api.twilio.com/...
 Processing recording from URL: https://api.twilio.com/...
-Deepgram Transcription: "I've taken my Caldivo, my aspirin, and I've taken my metformin also."
+Deepgram Transcription: "I've taken myaspirin, and I've taken my metformin also."
 Medication status detected: 
 {
   aspirin: 'taken', 
