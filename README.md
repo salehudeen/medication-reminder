@@ -30,9 +30,6 @@ A voice-driven medication reminder system built with Node.js and Twilio. The sys
 - Currently, real-time TTS and STT streaming is not fully implemented
 - Attempted to use Deepgram WebSocket for live transcription but couldn't complete within the project timeline
 - Current implementation uses pre-recorded audio transcription
-# Medication Reminder System
-
-A voice-driven medication reminder system built with Node.js and Twilio. The system calls patients to remind them about their medications, records their responses, and handles unanswered calls with voicemail or SMS fallbacks.
 
 ## Triggering a Call from Postman
 
