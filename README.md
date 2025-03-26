@@ -109,15 +109,6 @@ To get details about a specific call:
 ```
 curl https://abc123.ngrok.io/api/call-log/{callSid}
 ```
-
-## Future Improvements
-
-- Implement real-time TTS and STT streaming
-- Add persistent database storage for call logs
-- Enhance medication response parsing
-- Improve error handling and logging
-- Develop a web dashboard for call log management
-
 ## Troubleshooting
 
 - Ensure all environment variables are correctly set
