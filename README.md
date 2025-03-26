@@ -22,94 +22,86 @@ A voice-driven medication reminder system built with Node.js and Twilio. The sys
   - Auth Token
   - Twilio phone number
 - ngrok for local testing
+- Deepgram API key for TTS and STT
 
-## Setup
+## Current Limitations
 
-1. Clone this repository:
-```
-git clone https://github.com/yourusername/medication-reminder.git
-cd medication-reminder
-```
+### Real-Time Streaming
+- Currently, real-time TTS and STT streaming is not fully implemented
+- Attempted to use Deepgram WebSocket for live transcription but couldn't complete within the project timeline
+- Current implementation uses pre-recorded audio transcription
 
-2. Install dependencies:
-```
-npm install
-```
+## Call Log Output Explanation
 
-3. Create a `.env` file in the root directory with the following variables:
-```
-TWILIO_ACCOUNT_SID=your_twilio_account_sid
-TWILIO_AUTH_TOKEN=your_twilio_auth_token
-TWILIO_PHONE_NUMBER=your_twilio_phone_number
-SERVER_URL=your_ngrok_url
-PORT=3000
-```
+When a call is processed, you'll see detailed console logs that provide insights into the call's lifecycle:
 
-## Running the Application
-
-1. Start the server:
+### Successful Call Log Example
 ```
-node index.js
+Call SID: CA177xyz..., Status: in-progress, Recording URL: https://api.twilio.com/...
+Processing recording from URL: https://api.twilio.com/...
+Deepgram Transcription: "I've taken my Caldivo, my aspirin, and I've taken my metformin also."
+Medication status detected: 
+{
+  aspirin: 'taken', 
+  cardivol: 'unknown', 
+  metformin: 'taken'
+}
+Call SID: CA177xyz..., Final Status: completed
 ```
 
-2. In a separate terminal, start ngrok to create a public URL:
+### Unanswered Call Log Example
 ```
-ngrok http 3000
-```
-
-3. Update your `.env` file with the ngrok URL:
-```
-SERVER_URL=https://your-ngrok-url.ngrok-free.app
-```
-
-4. Configure your Twilio phone number to use the ngrok URL for incoming calls:
-   - Go to the Twilio Console
-   - Navigate to Phone Numbers > Manage > Active Numbers
-   - Click on your Twilio number
-   - Under "Voice & Fax", set the webhook for incoming calls to:
-     `https://your-ngrok-url.ngrok-free.app/twilio/incoming-call`
-
-## Usage
-
-### Triggering a Call
-
-To trigger a medication reminder call, send a POST request to the `/api/trigger-call` endpoint:
-
-```
-curl -X POST https://your-ngrok-url.ngrok-free.app/api/trigger-call \
-  -H "Content-Type: application/json" \
-  -d '{"phoneNumber": "+1234567890"}'
+Call SID: CA177xyz..., Final Status: no-answer
+Call to +1234567890 was not answered (no-answer). 
+Attempting voicemail or SMS...
+Call SID: CA456def..., Status: voicemail-attempt, To: +1234567890
+SMS SID: SM789ghi..., Status: sms-sent, To: +1234567890
 ```
 
-### Understanding Call Logs
+### Key Log Components
+- **Call SID**: Unique identifier for the call
+- **Status**: Current state of the call (queued, in-progress, completed, no-answer)
+- **Recording URL**: Location of the call recording
+- **Transcription**: Patient's spoken response
+- **Medication Status**: Parsed understanding of medication intake
 
-After each call, the system logs information to the console:
+## Accessing Call Logs via Ngrok
 
-- For successful calls:
-  ```
-  Call SID: CA123abc..., Status: completed, Recording URL: https://api.twilio.com/...
-  Call SID: CA123abc..., Status: completed, Patient Response: "I have taken my medications today"
-  ```
+1. When you start ngrok, it provides a public URL (e.g., `https://abc123.ngrok.io`)
+2. Use the `/api/call-logs` endpoint to retrieve stored call logs:
+   ```
+   curl https://abc123.ngrok.io/api/call-logs
+   ```
+3. This will return an array of call logs stored in memory
 
-- For unanswered calls:
-  ```
-  Call SID: CA123abc..., Final Status: no-answer
-  Call to +1234567890 was not answered (no-answer). Attempting voicemail or SMS...
-  Call SID: CA456def..., Status: voicemail-attempt, To: +1234567890
-  ```
+## Viewing Detailed Call Information
 
-- For SMS fallbacks:
-  ```
-  SMS SID: SM789ghi..., Status: sms-sent, To: +1234567890
-  ```
+To get details about a specific call:
+```
+curl https://abc123.ngrok.io/api/call-log/{callSid}
+```
 
 ## Future Improvements
 
-- Implement a persistent database (MongoDB/PostgreSQL) for call logs
-- Add authentication for API endpoints
-- Create a web dashboard for viewing call logs
-- Implement more sophisticated error handling
-- Add unit and integration tests
+- Implement real-time TTS and STT streaming
+- Add persistent database storage for call logs
+- Enhance medication response parsing
+- Improve error handling and logging
+- Develop a web dashboard for call log management
+
+## Troubleshooting
+
+- Ensure all environment variables are correctly set
+- Check Twilio and Deepgram API key permissions
+- Verify ngrok is running and webhook is correctly configured
+- Monitor console logs for any error messages
+
+## Next Steps for Development
+
+1. Complete real-time streaming implementation
+2. Add more robust error handling
+3. Implement database persistence for call logs
+4. Create comprehensive test coverage
 
 ## License
 
