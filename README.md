@@ -30,6 +30,38 @@ A voice-driven medication reminder system built with Node.js and Twilio. The sys
 - Currently, real-time TTS and STT streaming is not fully implemented
 - Attempted to use Deepgram WebSocket for live transcription but couldn't complete within the project timeline
 - Current implementation uses pre-recorded audio transcription
+# Medication Reminder System
+
+A voice-driven medication reminder system built with Node.js and Twilio. The system calls patients to remind them about their medications, records their responses, and handles unanswered calls with voicemail or SMS fallbacks.
+
+## Triggering a Call from Postman
+
+### Request Details
+- **URL**: `http://localhost:3000/api/trigger-call?Content-Type=application/json`
+- **Method**: POST
+
+### Headers
+- **Key**: CONTENT-TYPE
+- **Value**: APPLICATION/JSON
+
+### Request Body (Raw JSON)
+```json
+{   
+    "phoneNumber": "(COUNTRY-CODE)PHONENUMBER" 
+}
+```
+
+**Example:**
+```json
+{   
+    "phoneNumber": "+15551234567" 
+}
+```
+
+**Notes:**
+- Replace `(COUNTRY-CODE)PHONENUMBER` with the full international phone number
+- Include the country code (e.g., +1 for US)
+- Ensure the phone number is correctly formatted
 
 ## Call Log Output Explanation
 
@@ -39,7 +71,7 @@ When a call is processed, you'll see detailed console logs that provide insights
 ```
 Call SID: CA177xyz..., Status: in-progress, Recording URL: https://api.twilio.com/...
 Processing recording from URL: https://api.twilio.com/...
-Deepgram Transcription: "I've taken myaspirin, and I've taken my metformin also."
+Deepgram Transcription: "I've taken my aspirin, and I've taken my metformin also."
 Medication status detected: 
 {
   aspirin: 'taken', 
