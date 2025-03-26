@@ -14,6 +14,8 @@ A voice-driven medication reminder system built with Node.js and Twilio. The sys
 - Simple in-memory storage for call logs
 
 ## Prerequisites
+- You need to add the DOTENV file path requirement to the twilio service file in
+the service folder 
 
 - Node.js (v14+)
 - npm or yarn
